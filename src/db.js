@@ -9,18 +9,14 @@ const dbPath = process.env.DATABASE_PATH || './db/app.sqlite';
 const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
-// ── TODO (candidato): define aquí el esquema de tu base de datos. ──
-//
-// El modelado de los datos es parte de lo que evaluamos, así que el
-// diseño es decisión tuya. Esto es solo para mostrarte el mecanismo:
-//
-//   db.exec(`
-//     CREATE TABLE IF NOT EXISTS contacts (
-//       id   ... ,
-//       ...        -- qué campos y de qué tipo lo decides tú
-//     )
-//   `);
-//
-// ───────────────────────────────────────────────────────────────────
+db.exec(`
+	CREATE TABLE IF NOT EXISTS contacts (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT NOT NULL CHECK(length(name) BETWEEN 2 AND 100),
+		email TEXT NOT NULL CHECK(length(email) <= 254),
+		message TEXT NOT NULL CHECK(length(message) BETWEEN 10 AND 2000),
+		created_at TEXT NOT NULL DEFAULT (datetime('now'))
+	)
+`);
 
 export default db;
