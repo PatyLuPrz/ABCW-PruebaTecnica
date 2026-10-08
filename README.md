@@ -77,13 +77,29 @@ tu propia API.
 ### Para completar por el candidato
 
 **Cómo correr mi proyecto:**
-_(si cambiaste algo del arranque, explícalo aquí)_
+1. Usa Node 18.18 o superior y ejecuta `npm install`.
+2. Copia `.env.example` a `.env` y cambia `ADMIN_USER` y `ADMIN_PASSWORD`.
+3. Ejecuta `npm run dev` y abre http://localhost:3000.
+4. Envía un mensaje desde el formulario. El enlace «Administración» abre el
+    panel; usa las credenciales del archivo `.env` para ver los mensajes.
+
+El estado del servidor y de SQLite se puede comprobar en `/health`.
 
 **Decisiones técnicas (3–4 puntos):**
--
+- SQLite crea la tabla al iniciar; `created_at` se genera en la base de datos.
+- La API valida y normaliza los datos también en servidor, y usa consultas
+   parametrizadas para guardar y leer contactos.
+- El listado exige HTTP Basic Auth con las credenciales del entorno y se ordena
+   por fecha descendente, con el ID como desempate.
+- El front usa HTML, CSS y JavaScript nativos, consume la API propia y mantiene
+   las credenciales solo en memoria mientras el panel está abierto.
 
 **Cómo usé IA:**
-_(qué le pedí, qué me dio, qué ajusté yo)_
+La usé como apoyo para implementar el esquema, las rutas, la autenticación y la
+interfaz. Revisé y ajusté la validación de ambos lados, el orden del listado,
+el manejo de errores y el comportamiento de acceso/cierre de sesión.
 
 **Qué dejé pendiente por tiempo y cómo lo resolvería:**
--
+- Añadir pruebas automatizadas para validaciones, autenticación y persistencia.
+- En producción, usar HTTPS, credenciales fuertes y un mecanismo de sesión con
+   protección CSRF si se amplía la administración más allá de este panel simple.
